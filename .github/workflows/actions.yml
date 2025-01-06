@@ -63,6 +63,9 @@ jobs:
           --docker-username=${{ secrets.ACR_USERNAME }} \
           --docker-password=${{ secrets.ACR_PASSWORD }} \
           --docker-email=Sneha.Vijapur@valtech.com
+
+    - name: List files in the repository (for debugging)
+      run: ls -R
     - name: Deploy to AKS
       uses: azure/k8s-deploy@v5
       with:
