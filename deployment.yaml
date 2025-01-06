@@ -14,10 +14,12 @@ spec:
     spec:
       containers:
       - name: Basic-Spring-App
-        image: springacr1705.azurecr.io/Basic-Spring-App:latest
+        image: springacr1705.azurecr.io/Basic-Spring-App
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+      imagePullSecrets:
+      - name: acr-secret
 ---        
 apiVersion: v1
 kind: Service
