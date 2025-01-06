@@ -35,6 +35,41 @@ jobs:
         docker build . -t springacr1705.azurecr.io/basic-spring-app:${{ github.sha }}
         docker push springacr1705.azurecr.io/basic-spring-app:${{ github.sha }}
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v4
+      with:
+        version: 'latest'
+
+    - name: Set up AKS context
+      uses: azure/aks-set-context@v4
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        cluster-name: actions
+        resource-group: actions
+
+    - name: Create Image Pull Secret
+      uses: azure/k8s-create-secret@v4
+      with:
+        container-registry-url: springacr1705.azurecr.io
+        container-registry-username: ${{ secrets.ACR_USERNAME }}
+        container-registry-password: ${{ secrets.ACR_PASSWORD }}
+        secret-name: acr-secret
+
+    - name: Deploy to AKS
+      uses: azure/k8s-deploy@v5
+      with:
+        manifests: |
+          deployment.yaml
+        images: |
+          springacr1705.azurecr.io/basic-spring-app:${{ github.sha }}
+        imagepullsecrets: |
+          acr-secret
+
     # - name: Build and Push Docker Image
     #   uses: mr-smithers-excellent/docker-build-push@v4
     #   with:
