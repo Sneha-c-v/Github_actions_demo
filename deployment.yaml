@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Basic-Spring-App
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: Basic-Spring-App
+  template:
+    metadata:
+      labels:
+        app: Basic-Spring-App
+    spec:
+      containers:
+      - name: Basic-Spring-App
+        image: springacr1705.azurecr.io/Basic-Spring-App:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---        
+apiVersion: v1
+kind: Service
+metadata:
+  name: Basic-Spring-App
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 90
+    targetPort: 8080
+  selector:
+    app: Basic-Spring-App
