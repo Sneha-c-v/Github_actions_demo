@@ -32,8 +32,8 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build . -t springacr1705.azurecr.io/Basic-Spring-App:${{ github.sha }}
-        docker push springacr1705.azurecr.io/Basic-Spring-App:${{ github.sha }}
+        docker build . -t springacr1705.azurecr.io/basic-spring-app:${{ github.sha }}
+        docker push springacr1705.azurecr.io/basic-spring-app:${{ github.sha }}
 
     # - name: Build and Push Docker Image
     #   uses: mr-smithers-excellent/docker-build-push@v4
