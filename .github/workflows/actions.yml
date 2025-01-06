@@ -64,7 +64,7 @@ jobs:
       uses: azure/k8s-deploy@v5
       with:
         manifests: |
-          ./deployment.yaml
+          Github_actions_demo/deployment.yaml
         images: |
           springacr1705.azurecr.io/basic-spring-app:${{ github.sha }}
         imagepullsecrets: |
