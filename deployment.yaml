@@ -14,11 +14,9 @@ spec:
     spec:
       containers:
       - name: basic-spring-app
-        image: springacr1705.azurecr.io/basic-spring-app:latest
+        image: springacr1705.azurecr.io/basic-spring-app:${{ github.sha }}
         ports:
         - containerPort: 8080
-      imagePullSecrets:
-      - name: acr-secret
 ---        
 apiVersion: v1
 kind: Service
