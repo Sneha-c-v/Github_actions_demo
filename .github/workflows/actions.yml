@@ -40,6 +40,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v4
     - name: Set up kubectl
       uses: azure/setup-kubectl@v4
       with:
@@ -53,11 +54,9 @@ jobs:
     - name: Set AKS Context
       run: |
         az aks get-credentials --resource-group actions --name actions --overwrite-existing
-    - name: Delete existing ACR Pull Secret
-      run: |
-        kubectl delete secret acr-secret || echo "Secret not found, continuing..."
     - name: Create ACR Pull Secret in AKS
       run: |
+        kubectl delete secret acr-secret || echo "Secret not found, continuing..."
         kubectl create secret docker-registry acr-secret \
           --docker-server=springacr1705.azurecr.io \
           --docker-username=${{ secrets.ACR_USERNAME }} \
